@@ -51,6 +51,21 @@ public class SpELActionTest {
     }
 
     @Test
+    public void testSpELActionExecutionResult() throws Exception {
+        // given
+        Action markAsAdult = new SpELAction("#{ ['result'] = 'hello' }");
+        Facts facts = new Facts();
+        Person foo = new Person("foo", 20);
+        facts.put("person", foo);
+
+        // when
+        markAsAdult.execute(facts);
+
+        // then
+        assertThat((String)facts.get("result")).isEqualTo("hello");
+    }
+
+    @Test
     public void testSpELFunctionExecution() throws Exception {
         // given
         Action printAction = new SpELAction("#{ T(org.jeasy.rules.spel.Person).sayHello() }");
